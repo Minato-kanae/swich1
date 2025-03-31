@@ -31,6 +31,7 @@ document.getElementById('spinButton').addEventListener('click', function() {
 });
 
 document.getElementById('displayRarityButton').addEventListener('click', function() {
+    console.log('レアリティ表示ボタンがクリックされました');
     const rarityData = [
         { name: '白', probability: '0.3%' },
         { name: '赤', probability: '5%' },
