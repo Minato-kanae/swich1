@@ -3,43 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>運ゲーム</title>
+    <title>色あてゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>運ゲーム</h1>
-        <!-- 色をランダムに選ぶボタン -->
-        <button id="spinButton">ボタンを押して色をゲット！</button>
-
-        <!-- 色結果を表示 -->
-        <div id="result" class="result">ここに色が表示されます</div>
-
-        <!-- 経験値表示 -->
-        <div id="xp" class="result">獲得経験値: 0 XP</div>
-
-        <!-- レアリティ情報表示ボタン -->
-        <button id="displayRarityButton">レアリティ表示</button>
+    <div class="game-container">
+        <h1>色あてゲーム</h1>
+        <p>色を当てて経験値をゲットしよう！</p>
+        <div id="color-display" class="color-box"></div>
+        <div id="exp-display">経験値: 0</div>
+        <div id="rarity-display">レアリティ: </div>
+        <div id="exp-rarity">獲得経験値:</div>
+        <div id="rarity-bar"></div>
+        <button onclick="generateColor()">新しい色を表示</button>
     </div>
-
-    <div class="container">
-        <h1>レアリティ一覧</h1>
-        
-        <!-- レアリティ情報を表示するテーブル -->
-        <table id="rarityTable">
-            <thead>
-                <tr>
-                    <th>レアリティ</th>
-                    <th>確率</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 行はJavaScriptで動的に追加 -->
-            </tbody>
-        </table>
-    </div>
-
     <script src="app.js"></script>
 </body>
 </html>

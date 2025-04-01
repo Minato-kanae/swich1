@@ -1,73 +1,55 @@
-document.getElementById('spinButton').addEventListener('click', function() {
-    const resultElement = document.getElementById('result');
-    const xpElement = document.getElementById('xp'); // 経験値表示用の要素
-    
-    // 色とその確率、および対応する経験値
-    const colors = [
-        { name: '白', color: '#ffffff', probability: 0.3, xp: 5 },     // 白は5 XP
-        { name: '赤', color: '#ff0000', probability: 5, xp: 50 },      // 赤は50 XP
-        { name: '黄色', color: '#ffcc00', probability: 7, xp: 70 },   // 黄色は70 XP
-        { name: '緑', color: '#00ff00', probability: 10, xp: 100 },    // 緑は100 XP
-        { name: '青', color: '#0000ff', probability: 15, xp: 150 },    // 青は150 XP
-        { name: '紫', color: '#800080', probability: 20, xp: 200 },    // 紫は200 XP
-        { name: '黒', color: '#000000', probability: 42.7, xp: 0 }     // 黒は外れ（0 XP）
-    ];
+let experiencePoints = 0;
 
-    // 確率に基づいてランダムな色を選択
+const rarities = [
+    { color: "white", rarity: 0.3, exp: 10 },
+    { color: "red", rarity: 5, exp: 20 },
+    { color: "yellow", rarity: 7, exp: 30 },
+    { color: "green", rarity: 10, exp: 40 },
+    { color: "blue", rarity: 15, exp: 50 },
+    { color: "purple", rarity: 20, exp: 60 },
+    { color: "black", rarity: 42.7, exp: 0 }
+];
+
+// 色の表示をランダムで生成
+function generateColor() {
     const random = Math.random() * 100;
-    let cumulativeProbability = 0;
-    let selectedColor = colors[colors.length - 1]; // 黒をデフォルトに
-
-    // 色を決定するロジック
-    for (let i = 0; i < colors.length; i++) {
-        cumulativeProbability += colors[i].probability;
-        if (random <= cumulativeProbability) {
-            selectedColor = colors[i];
+    let accumulatedRarity = 0;
+    let selectedColor = null;
+    
+    for (let rarity of rarities) {
+        accumulatedRarity += rarity.rarity;
+        if (random <= accumulatedRarity) {
+            selectedColor = rarity;
             break;
         }
     }
 
-    // 結果（選ばれた色）を表示
-    resultElement.textContent = `あなたの色は ${selectedColor.name} です！`;
-    resultElement.style.backgroundColor = selectedColor.color;
+    const colorBox = document.getElementById("color-display");
+    colorBox.style.backgroundColor = selectedColor.color;
+    updateExperience(selectedColor);
+    displayRarity(selectedColor);
+}
 
-    // 経験値を表示
-    xpElement.textContent = `獲得経験値: ${selectedColor.xp} XP`;
-});
+// 経験値を更新
+function updateExperience(selectedColor) {
+    experiencePoints += selectedColor.exp;
+    const expDisplay = document.getElementById("exp-display");
+    expDisplay.textContent = `経験値: ${experiencePoints}`;
+}
 
-// レアリティ表示ボタンが押されたときの処理
-document.getElementById('displayRarityButton').addEventListener('click', function() {
-    console.log('レアリティ表示ボタンがクリックされました');
+// レアリティの表示
+function displayRarity(selectedColor) {
+    const rarityDisplay = document.getElementById("rarity-display");
+    const expRarityDisplay = document.getElementById("exp-rarity");
     
-    // レアリティデータ
-    const rarityData = [
-        { name: '白', probability: '0.3%' },
-        { name: '赤', probability: '5%' },
-        { name: '黄色', probability: '7%' },
-        { name: '緑', probability: '10%' },
-        { name: '青', probability: '15%' },
-        { name: '紫', probability: '20%' },
-        { name: '黒', probability: '42.7%' }
-    ];
+    rarityDisplay.textContent = `レアリティ: ${selectedColor.color}`;
+    expRarityDisplay.textContent = `獲得経験値: ${selectedColor.exp}`;
 
-    // テーブルのtbodyを取得
-    const tableBody = document.getElementById('rarityTable').getElementsByTagName('tbody')[0];
-    
-    // 既存の内容をクリア（再度ボタンを押した時に重複しないように）
-    tableBody.innerHTML = '';
-
-    // rarityDataから行を生成してテーブルに追加
-    rarityData.forEach(function(item) {
-        const row = document.createElement('tr');
-
-        const cell1 = document.createElement('td');
-        cell1.textContent = item.name;
-        row.appendChild(cell1);
-
-        const cell2 = document.createElement('td');
-        cell2.textContent = item.probability;
-        row.appendChild(cell2);
-
-        tableBody.appendChild(row);
-    });
-});
+    const rarityBar = document.getElementById("rarity-bar");
+    const barWidth = (selectedColor.rarity / 100) * 100;
+    const bar = document.createElement("div");
+    bar.style.width = barWidth + "%";
+    bar.style.backgroundColor = selectedColor.color;
+    rarityBar.innerHTML = '';  // 以前のバーをクリア
+    rarityBar.appendChild(bar);
+}
