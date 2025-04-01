@@ -47,3 +47,20 @@ button:hover {
 #rarity-bar div {
     height: 100%;
 }
+
+#items-container {
+    margin-top: 40px;
+}
+
+.item {
+    margin: 10px 0;
+}
+
+.item button {
+    background-color: #ff5722;
+    font-size: 14px;
+}
+
+.item button:hover {
+    background-color: #e64a19;
+}

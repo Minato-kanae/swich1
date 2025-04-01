@@ -15,7 +15,20 @@
         <div id="rarity-display">レアリティ: </div>
         <div id="exp-rarity">獲得経験値:</div>
         <div id="rarity-bar"></div>
+
         <button onclick="generateColor()">新しい色を表示</button>
+
+        <div id="items-container">
+            <h2>交換可能アイテム</h2>
+            <div id="item-1" class="item">
+                <span>アイテム1 (100経験値)</span>
+                <button onclick="exchangeItem(100, 'アイテム1')">交換</button>
+            </div>
+            <div id="item-2" class="item">
+                <span>アイテム2 (200経験値)</span>
+                <button onclick="exchangeItem(200, 'アイテム2')">交換</button>
+            </div>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>
