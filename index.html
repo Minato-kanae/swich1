@@ -6,13 +6,23 @@
     <title>運ゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>運ゲーム</h1>
+        <!-- 色をランダムに選ぶボタン -->
         <button id="spinButton">ボタンを押して色をゲット！</button>
+
+        <!-- 色結果を表示 -->
         <div id="result" class="result">ここに色が表示されます</div>
+
+        <!-- 経験値表示 -->
+        <div id="xp" class="result">獲得経験値: 0 XP</div>
+
+        <!-- レアリティ情報表示ボタン -->
+        <button id="displayRarityButton">レアリティ表示</button>
     </div>
-    <script src="app.js"></script>
+
     <div class="container">
         <h1>レアリティ一覧</h1>
         
@@ -28,9 +38,6 @@
                 <!-- 行はJavaScriptで動的に追加 -->
             </tbody>
         </table>
-
-        <!-- ボタンを押すとレアリティを表示 -->
-        <button id="displayRarityButton">レアリティを表示</button>
     </div>
 
     <script src="app.js"></script>
