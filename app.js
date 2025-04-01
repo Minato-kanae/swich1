@@ -75,7 +75,7 @@ document.getElementById("exchange-btn").addEventListener("click", () => {
   if (experience >= 100) {
     experience -= 100; // 100XPでアイテム交換
     document.getElementById("xp").innerText = experience;
-    alert("アイテムを交換しました！");
+    alert("シコティを交換しました！");
   } else {
     alert("経験値が足りません！");
   }
