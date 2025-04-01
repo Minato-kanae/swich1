@@ -1,78 +1,88 @@
-let experiencePoints = 0;
+// 経験値やアイテムの管理
+let experience = 0;
+let items = [];
+let rarityList = [];
 
-// ローカルストレージから経験値を取得（再読み込み後でも保持）
-if (localStorage.getItem("experiencePoints")) {
-    experiencePoints = parseInt(localStorage.getItem("experiencePoints"));
-}
-
-// 色のレアリティ設定
+// 色のリスト
+const colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"];
 const rarities = [
-    { color: "white", rarity: 0.3, exp: 10 },
-    { color: "red", rarity: 5, exp: 20 },
-    { color: "yellow", rarity: 7, exp: 30 },
-    { color: "green", rarity: 10, exp: 40 },
-    { color: "blue", rarity: 15, exp: 50 },
-    { color: "purple", rarity: 20, exp: 60 },
-    { color: "black", rarity: 42.7, exp: 0 }
+  { color: "#FFFFFF", probability: 0.003 },
+  { color: "#FF0000", probability: 0.05 },
+  { color: "#FFFF00", probability: 0.07 },
+  { color: "#00FF00", probability: 0.10 },
+  { color: "#0000FF", probability: 0.15 },
+  { color: "#800080", probability: 0.20 },
+  { color: "#000000", probability: 0.50 }
 ];
 
-// 経験値表示を更新する関数
-function updateExperience() {
-    const expDisplay = document.getElementById("exp-display");
-    expDisplay.textContent = `経験値: ${experiencePoints}`;
-    localStorage.setItem("experiencePoints", experiencePoints);  // ローカルストレージに保存
+// ランダムな色を表示
+function displayRandomColor() {
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  document.getElementById("color-box").style.backgroundColor = randomColor;
 }
 
-// 色を表示し、経験値を更新する関数
-function generateColor() {
-    const random = Math.random() * 100;
-    let accumulatedRarity = 0;
-    let selectedColor = null;
-    
-    for (let rarity of rarities) {
-        accumulatedRarity += rarity.rarity;
-        if (random <= accumulatedRarity) {
-            selectedColor = rarity;
-            break;
-        }
+// 経験値の取得
+function gainExperience() {
+  const random = Math.random();
+  let gainedXp = 0;
+  let rarity = "黒"; // 黒はハズレ
+
+  // レアリティ計算
+  let cumulativeProbability = 0;
+  for (let i = 0; i < rarities.length; i++) {
+    cumulativeProbability += rarities[i].probability;
+    if (random < cumulativeProbability) {
+      rarity = rarities[i].color;
+      gainedXp = Math.floor(Math.random() * 100) + 1; // 経験値は1~100のランダム
+      break;
     }
+  }
 
-    const colorBox = document.getElementById("color-display");
-    colorBox.style.backgroundColor = selectedColor.color;
-    updateExperienceWithColor(selectedColor);
-    displayRarity(selectedColor);
+  // 経験値追加
+  experience += gainedXp;
+  items.push(rarity); // アイテムリストに追加
+
+  // 経験値とアイテムを更新
+  document.getElementById("xp").innerText = experience;
+  updateItemList();
+  updateRarityList();
 }
 
-// 経験値を加算
-function updateExperienceWithColor(selectedColor) {
-    experiencePoints += selectedColor.exp;
-    updateExperience();
+// アイテムリストを更新
+function updateItemList() {
+  const itemList = document.getElementById("item-list");
+  itemList.innerHTML = '';
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = `アイテム: ${item}`;
+    itemList.appendChild(li);
+  });
 }
 
-// レアリティを表示する関数
-function displayRarity(selectedColor) {
-    const rarityDisplay = document.getElementById("rarity-display");
-    const expRarityDisplay = document.getElementById("exp-rarity");
-    
-    rarityDisplay.textContent = `レアリティ: ${selectedColor.color}`;
-    expRarityDisplay.textContent = `獲得経験値: ${selectedColor.exp}`;
-
-    const rarityBar = document.getElementById("rarity-bar");
-    const barWidth = (selectedColor.rarity / 100) * 100;
-    const bar = document.createElement("div");
-    bar.style.width = barWidth + "%";
-    bar.style.backgroundColor = selectedColor.color;
-    rarityBar.innerHTML = '';  // 以前のバーをクリア
-    rarityBar.appendChild(bar);
+// レアリティリストを更新
+function updateRarityList() {
+  const rarityListElement = document.getElementById("rarity-list");
+  rarityListElement.innerHTML = '';
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = `レアリティ: ${item}`;
+    rarityListElement.appendChild(li);
+  });
 }
 
-// アイテム交換機能
-function exchangeItem(cost, itemName) {
-    if (experiencePoints >= cost) {
-        experiencePoints -= cost;
-        updateExperience();
-        alert(`${itemName} を交換しました！`);
-    } else {
-        alert("経験値が足りません。");
-    }
-}
+// アイテム交換の処理
+document.getElementById("exchange-btn").addEventListener("click", () => {
+  if (experience >= 100) {
+    experience -= 100; // 100XPでアイテム交換
+    document.getElementById("xp").innerText = experience;
+    alert("アイテムを交換しました！");
+  } else {
+    alert("経験値が足りません！");
+  }
+});
+
+// 色当てボタンの処理
+document.getElementById("guess-btn").addEventListener("click", () => {
+  displayRandomColor();
+  gainExperience();
+});

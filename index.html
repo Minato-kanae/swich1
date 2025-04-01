@@ -1,35 +1,42 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>色あてゲーム</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>色あてゲーム</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1>色あてゲーム</h1>
-        <p>色を当てて経験値をゲットしよう！</p>
-        <div id="color-display" class="color-box"></div>
-        <div id="exp-display">経験値: 0</div>
-        <div id="rarity-display">レアリティ: </div>
-        <div id="exp-rarity">獲得経験値:</div>
-        <div id="rarity-bar"></div>
+  <div class="game-container">
+    <h1>色あてゲーム</h1>
 
-        <button onclick="generateColor()">新しい色を表示</button>
+    <!-- 色表示 -->
+    <div id="color-box" class="color-box"></div>
 
-        <div id="items-container">
-            <h2>交換可能アイテム</h2>
-            <div id="item-1" class="item">
-                <span>アイテム1 (100経験値)</span>
-                <button onclick="exchangeItem(100, 'アイテム1')">交換</button>
-            </div>
-            <div id="item-2" class="item">
-                <span>アイテム2 (200経験値)</span>
-                <button onclick="exchangeItem(200, 'アイテム2')">交換</button>
-            </div>
-        </div>
+    <!-- 色を当てるボタン -->
+    <button id="guess-btn">色を当てる</button>
+
+    <!-- 経験値表示 -->
+    <div id="experience">
+      <p>経験値: <span id="xp">0</span></p>
     </div>
-    <script src="app.js"></script>
+
+    <!-- アイテム交換 -->
+    <div id="items">
+      <p>アイテム:</p>
+      <ul id="item-list"></ul>
+      <button id="exchange-btn">アイテム交換</button>
+    </div>
+
+    <!-- レアリティ表示 -->
+    <div id="rarity">
+      <p>レアリティ:</p>
+      <ul id="rarity-list">
+        <!-- レアリティアイテムがここに追加される -->
+      </ul>
+    </div>
+
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
